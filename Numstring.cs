@@ -15,72 +15,72 @@ namespace Rusty.Numstrings
         /* Constructors. */
         public Numstring(Numstring value)
         {
-            str = value.str;
+            str = (string)value;
         }
 
         public Numstring(bool value)
         {
-            str = value.ToString();
+            str = new BoolParser().Serialize(value);
         }
 
         public Numstring(sbyte value)
         {
-            str = value.ToString();
+            str = new SbyteParser().Serialize(value);
         }
 
         public Numstring(short value)
         {
-            str = value.ToString();
+            str = new ShortParser().Serialize(value);
         }
 
         public Numstring(int value)
         {
-            str = value.ToString();
+            str = new IntParser().Serialize(value);
         }
 
         public Numstring(long value)
         {
-            str = value.ToString();
+            str = new LongParser().Serialize(value);
         }
 
         public Numstring(byte value)
         {
-            str = value.ToString();
+            str = new ByteParser().Serialize(value);
         }
 
         public Numstring(ushort value)
         {
-            str = value.ToString();
+            str = new UshortParser().Serialize(value);
         }
 
         public Numstring(uint value)
         {
-            str = value.ToString();
+            str = new UintParser().Serialize(value);
         }
 
         public Numstring(ulong value)
         {
-            str = value.ToString();
+            str = new UlongParser().Serialize(value);
         }
 
         public Numstring(float value)
         {
-            str = value.ToString();
+            str = new FloatParser().Serialize(value);
         }
 
         public Numstring(double value)
         {
-            str = value.ToString();
+            str = new DoubleParser().Serialize(value);
         }
 
         public Numstring(decimal value)
         {
-            str = value.ToString();
+            str = new DecimalParser().Serialize(value);
         }
 
         public Numstring(char value)
         {
-            str = value.ToString();
+            str = new CharParser().Serialize(value);
         }
 
         public Numstring(string value)
@@ -150,12 +150,12 @@ namespace Rusty.Numstrings
 
         public Numstring(Basis value)
         {
-            str = Json.Stringify(value);
+            str = $"[({value.X.X}, {value.X.Y}, {value.X.Z}), ({value.Y.X}, {value.Y.Y}, {value.Y.Z}), ({value.Z.X}, {value.Z.Y}, {value.Z.Z})]";
         }
 
         public Numstring(Transform3D value)
         {
-            str = Json.Stringify(value);
+            throw new NotImplementedException();
         }
 
         public Numstring(Color value, bool includeAlpha = true)
@@ -263,67 +263,67 @@ namespace Rusty.Numstrings
         // From numstring.
         public static explicit operator bool(Numstring value)
         {
-            return BasicParser.Parse(value, bool.Parse, default);
+            return new BoolParser().Parse(value.str);
         }
 
         public static explicit operator sbyte(Numstring value)
         {
-            return SignedParser.Parse(value.str, sbyte.Parse, default, sbyte.MinValue, sbyte.MaxValue);
+            return new SbyteParser().Parse(value.str);
         }
 
         public static explicit operator short(Numstring value)
         {
-            return SignedParser.Parse(value.str, short.Parse, default, short.MinValue, short.MaxValue);
+            return new ShortParser().Parse(value.str);
         }
 
         public static explicit operator int(Numstring value)
         {
-            return SignedParser.Parse(value.str, int.Parse, default, int.MinValue, int.MaxValue);
+            return new IntParser().Parse(value.str);
         }
 
         public static explicit operator long(Numstring value)
         {
-            return SignedParser.Parse(value.str, long.Parse, default, long.MinValue, long.MaxValue);
+            return new LongParser().Parse(value.str);
         }
 
         public static explicit operator byte(Numstring value)
         {
-            return UnsignedParser.Parse(value.str, byte.Parse, default, byte.MaxValue);
+            return new ByteParser().Parse(value.str);
         }
 
         public static explicit operator ushort(Numstring value)
         {
-            return UnsignedParser.Parse(value.str, ushort.Parse, default, ushort.MaxValue);
+            return new UshortParser().Parse(value.str);
         }
 
         public static explicit operator uint(Numstring value)
         {
-            return UnsignedParser.Parse(value.str, uint.Parse, default, uint.MaxValue);
+            return new UintParser().Parse(value.str);
         }
 
         public static explicit operator ulong(Numstring value)
         {
-            return UnsignedParser.Parse(value.str, ulong.Parse, default, ulong.MaxValue);
+            return new UlongParser().Parse(value.str);
         }
 
         public static explicit operator float(Numstring value)
         {
-            return SignedParser.Parse(value.str, float.Parse, default, float.MinValue, float.MaxValue);
+            return new FloatParser().Parse(value.str);
         }
 
         public static explicit operator double(Numstring value)
         {
-            return SignedParser.Parse(value.str, double.Parse, default, double.MinValue, double.MaxValue);
+            return new DoubleParser().Parse(value.str);
         }
 
         public static explicit operator decimal(Numstring value)
         {
-            return SignedParser.Parse(value.str, decimal.Parse, default, decimal.MinValue, decimal.MaxValue);
+            return new DecimalParser().Parse(value.str);
         }
 
         public static explicit operator char(Numstring value)
         {
-            return BasicParser.Parse(value.str, char.Parse, default);
+            return new CharParser().Parse(value.str);
         }
 
         public static implicit operator string(Numstring value)
@@ -333,97 +333,77 @@ namespace Rusty.Numstrings
 
         public static explicit operator Vector2I(Numstring value)
         {
-            Vector4I vec = IntVectorParser.Parse(value.str);
-            return new(vec.X, vec.Y);
+            throw new NotImplementedException();
         }
 
         public static explicit operator Vector3I(Numstring value)
         {
-            Vector4I vec = IntVectorParser.Parse(value.str);
-            return new(vec.X, vec.Y, vec.Z);
+            throw new NotImplementedException();
         }
 
         public static explicit operator Vector4I(Numstring value)
         {
-            return IntVectorParser.Parse(value.str);
+            throw new NotImplementedException();
         }
 
         public static explicit operator Vector2(Numstring value)
         {
-            Vector4 vec = FloatVectorParser.Parse(value.str);
-            return new(vec.X, vec.Y);
+            throw new NotImplementedException();
         }
 
         public static explicit operator Vector3(Numstring value)
         {
-            Vector4 vec = FloatVectorParser.Parse(value.str);
-            return new(vec.X, vec.Y, vec.Z);
+            throw new NotImplementedException();
         }
 
         public static explicit operator Vector4(Numstring value)
         {
-            return FloatVectorParser.Parse(value.str);
+            throw new NotImplementedException();
         }
 
         public static explicit operator Quaternion(Numstring value)
         {
-            Vector4 vec = FloatVectorParser.Parse(value.str);
-            return new(vec.X, vec.Y, vec.Z, vec.W);
+            throw new NotImplementedException();
         }
 
         public static explicit operator Plane(Numstring value)
         {
-            return (Plane)Json.ParseString(value.str);
+            throw new NotImplementedException();
         }
 
         public static explicit operator Rect2I(Numstring value)
         {
-            return (Rect2I)Json.ParseString(value.str);
+            throw new NotImplementedException();
         }
 
         public static explicit operator Rect2(Numstring value)
         {
-            return (Rect2)Json.ParseString(value.str);
+            throw new NotImplementedException();
         }
 
         public static explicit operator Aabb(Numstring value)
         {
-            return (Aabb)Json.ParseString(value.str);
+            throw new NotImplementedException();
         }
 
         public static explicit operator Transform2D(Numstring value)
         {
-            return (Transform2D)Json.ParseString(value.str);
+            throw new NotImplementedException();
         }
 
         public static explicit operator Basis(Numstring value)
         {
-            return (Basis)Json.ParseString(value.str);
+            throw new NotImplementedException();
         }
 
         public static explicit operator Transform3D(Numstring value)
         {
-            return (Transform3D)Json.ParseString(value.str);
+            throw new NotImplementedException();
         }
 
         public static explicit operator Color(Numstring value)
         {
-            try
-            {
-                return Color.FromHtml(value.str);
-            }
-            catch
-            {
-                try
-                {
-                    Vector4 vec = FloatVectorParser.Parse(value.str);
-                    return new(vec.X, vec.Y, vec.Z, vec.W);
-                }
-                catch
-                {
-                    return new Color(0f, 0f, 0f, 1f);
-                }
-            }
+            throw new NotImplementedException();
         }
 
         // To numstring.
