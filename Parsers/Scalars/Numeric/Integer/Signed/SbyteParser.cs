@@ -4,7 +4,6 @@
     {
         /* Protected methods. */
         protected override ParserHandler ParseMethod => sbyte.Parse;
-        protected override sbyte DefaultValue => default;
         protected override sbyte MinValue => sbyte.MinValue;
         protected override sbyte MaxValue => sbyte.MaxValue;
     }

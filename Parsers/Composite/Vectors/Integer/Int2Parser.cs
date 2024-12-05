@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rusty.Numstrings.Parsers.Composite.Vectors.Integer
+namespace Rusty.Numstrings
 {
     internal class Int2Parser
     {

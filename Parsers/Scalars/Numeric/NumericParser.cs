@@ -1,19 +1,14 @@
 ﻿namespace Rusty.Numstrings
 {
-    internal abstract class NumericParser<T> : Parser<T>
+    internal abstract class NumericParser<T> : ScalarParser<T>
     {
         /* Public properties. */
         public abstract string Number { get; }
 
         /* Protected properties. */
-        protected string[] Patterns => new string[]
-        {
-            $"^{whitespace}{Group(Number)}{whitespace}$",
-            $"^{whitespace}{Group(Number)}{whitespace},"
-        };
+        protected override string Pattern => $@"^\s*{Group(Number)}\s*$";
 
         protected abstract ParserHandler ParseMethod { get; }
-        protected abstract T DefaultValue { get; }
         protected abstract T MaxValue { get; }
 
         /* Protected delegates. */

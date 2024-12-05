@@ -37,40 +37,41 @@ Test.CheckMatch("+1.1", real_pattern);
 Test.CheckMatch("-.1", real_pattern);*/
 
 Console.WriteLine("[bool]");
-Test.Parse<bool, BoolParser>(new BoolParser(), "false");
-Test.Parse<bool, BoolParser>(new BoolParser(), "true");
-Test.Parse<bool, BoolParser>(new BoolParser(), "true, ");
-Test.Parse<bool, BoolParser>(new BoolParser(), " tRue");
+Test.Parse<string, bool, BoolParser>(new BoolParser(), "false");
+Test.Parse<string, bool, BoolParser>(new BoolParser(), "true");
+Test.Parse<string, bool, BoolParser>(new BoolParser(), "true, ");
+Test.Parse<string, bool, BoolParser>(new BoolParser(), " tRue");
 
 Console.WriteLine("[int]");
-Test.Parse<int, IntParser>(new IntParser(), "1");
-Test.Parse<int, IntParser>(new IntParser(), " 2");
-Test.Parse<int, IntParser>(new IntParser(), " 3  ");
-Test.Parse<int, IntParser>(new IntParser(), " 4  ,  5");
-Test.Parse<int, IntParser>(new IntParser(), " 6  ,  7,  8");
-Test.Parse<int, IntParser>(new IntParser(), "9,");
+Test.Parse<string, int, IntParser>(new IntParser(), "1");
+Test.Parse<string, int, IntParser>(new IntParser(), " 2");
+Test.Parse<string, int, IntParser>(new IntParser(), " 3  ");
+Test.Parse<string, int, IntParser>(new IntParser(), " 4  ,  5");
+Test.Parse<string, int, IntParser>(new IntParser(), " 6  ,  7,  8");
+Test.Parse<string, int, IntParser>(new IntParser(), "9,");
 
 Console.WriteLine("[float]");
-Test.Parse<float, FloatParser>(new FloatParser(), "1");
-Test.Parse<float, FloatParser>(new FloatParser(), " .2");
-Test.Parse<float, FloatParser>(new FloatParser(), " 3.4  ");
-Test.Parse<float, FloatParser>(new FloatParser(), " 5  ,  6.7");
-Test.Parse<float, FloatParser>(new FloatParser(), " 9  ,  10,  11");
-Test.Parse<float, FloatParser>(new FloatParser(), "12,");
+Test.Parse<string, float, FloatParser>(new FloatParser(), "1");
+Test.Parse<string, float, FloatParser>(new FloatParser(), " .2");
+Test.Parse<string, float, FloatParser>(new FloatParser(), " 3.4  ");
+Test.Parse<string, float, FloatParser>(new FloatParser(), " 5  ,  6.7");
+Test.Parse<string, float, FloatParser>(new FloatParser(), " 9  ,  10,  11");
+Test.Parse<string, float, FloatParser>(new FloatParser(), "12,");
 
 Console.WriteLine("[char]");
-Test.Parse<char, CharParser>(new CharParser(), "a");
-Test.Parse<char, CharParser>(new CharParser(), "");
+Test.Parse<string, char, CharParser>(new CharParser(), "a");
+Test.Parse<string, char, CharParser>(new CharParser(), "abc");
+Test.Parse<string, char, CharParser>(new CharParser(), "");
 
 //Test.Parse<Vector2, Vector2Parser>(new Vector2Parser(), "(1, 2, 3, 4)");
 
-Test.Parse<int, IntParser>(new IntParser(), "(1, 2, 3, 4)");
-Test.Parse<int, IntParser>(new IntParser(), "[1, 2, 3, 4]");
-Test.Parse<int, IntParser>(new IntParser(), " {1,  2, 3, 4}");
+//Test.Parse<int, IntParser>(new IntParser(), "(1, 2, 3, 4)");
+//Test.Parse<int, IntParser>(new IntParser(), "[1, 2, 3, 4]");
+//Test.Parse<int, IntParser>(new IntParser(), " {1,  2, 3, 4}");
 
 public class Test
 {
-    internal static void Parse<T, U>(U parser, string str) where U : Parser<T>
+    internal static void Parse<MatchT, ParseT, ParserT>(ParserT parser, string str) where ParserT : Parser<MatchT, ParseT>
     {
         Console.WriteLine($"\"{str}\" -> " + parser.Parse(str));
     }

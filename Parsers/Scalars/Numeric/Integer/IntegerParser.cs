@@ -2,7 +2,7 @@
 {
     internal abstract class IntegerParser<T> : NumericParser<T>
     {
-        /* Public constants. */
+        /* Public properties. */
         public override string Number => $"{sign}?{digits}+";
     }
 }

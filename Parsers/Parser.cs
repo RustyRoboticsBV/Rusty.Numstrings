@@ -6,18 +6,16 @@ namespace Rusty.Numstrings
     /// <summary>
     /// Base class for all parsers.
     /// </summary>
-    internal abstract class Parser<T>
+    internal abstract class Parser<MatchT, ParseT>
     {
         /* Protected constants. */
-        protected static readonly string sign = "[+-]";
-        protected static readonly string digits = "[0-9]";
-        protected static readonly string letters = "[a-z|A-Z]";
-        protected static readonly string whitespace = @"\s";
-        protected static readonly string boolTrue = "[tT][rR][uU][eE]";
-        protected static readonly string boolFalse = "(f|F)(a|A)(l|L)(s|S)(e|E)";
+        protected const string sign = "[+-]";
+        protected const string digits = "[0-9]";
+        protected const string letters = "[a-z|A-Z]";
 
         /* Protected properties. */
-        protected abstract string[] Patterns { get; }
+        protected virtual string Pattern => "";
+        protected virtual ParseT DefaultValue => default;
 
         /* Private properties. */
         private static int GroupIndex { get; set; }
@@ -26,45 +24,45 @@ namespace Rusty.Numstrings
         /// <summary>
         /// Parse a string and return an object.
         /// </summary>
-        public abstract T Parse(string str);
+        public ParseT Parse(string str)
+        {
+            try
+            {
+                MatchT extracted = Extract(str, Pattern);
+                try
+                {
+                    return Convert(extracted);
+                }
+                catch
+                {
+                    return DefaultValue;
+                }
+            }
+            catch
+            {
+                return DefaultValue;
+            }
+        }
 
         /// <summary>
         /// Serialize an object and return the string representation.
         /// </summary>
-        public virtual string Serialize(T obj)
+        public virtual string Serialize(ParseT obj)
         {
             return obj.ToString();
         }
 
         /* Protected methods. */
         /// <summary>
-        /// Match a string to some pattern.
+        /// Take a string and a regular expression, and extract some value.
         /// </summary>
-        protected static void Extract(string str, string pattern, out string group1)
-        {
-            Match match = Regex.Match(str, pattern);
-            if (match.Success)
-                group1 = match.Groups[1].Value;
-            else
-                throw new ArgumentException($"The string '{str}' did not match the pattern '{pattern}'.");
-        }
+        protected abstract MatchT Extract(string str, string pattern);
 
         /// <summary>
-        /// Match a string to some pattern.
+        /// Take an extracted value and interpret it as a parsed value.
         /// </summary>
-        protected static void Extract(string str, string[] patterns, out string group1)
-        {
-            foreach (string pattern in patterns)
-            {
-                try
-                {
-                    Extract(str, pattern, out group1);
-                    return;
-                }
-                catch { }
-            }
-            throw new ArgumentException($"The string '{str}' did not match any of the patterns in '{patterns}'.");
-        }
+        protected abstract ParseT Convert(MatchT extracted);
+
 
         /// <summary>
         /// Match a string to some pattern.
@@ -165,14 +163,6 @@ namespace Rusty.Numstrings
                 catch { }
             }
             throw new ArgumentException($"The string '{str}' did not match any of the patterns in '{patterns}'.");
-        }
-
-        /// <summary>
-        /// Surrounds a pattern with optional whitespace patterns.
-        /// </summary>
-        protected static string Whitespace(string str)
-        {
-            return $"{whitespace}*{str}{whitespace}*";
         }
 
         /// <summary>
