@@ -89,6 +89,16 @@ namespace Rusty.Numstrings
             str = value;
         }
 
+        public Numstring(int[] value)
+        {
+            str = IntArrayParser.Serialize(value);
+        }
+
+        public Numstring(float[] value)
+        {
+            str = FloatArrayParser.Serialize(value);
+        }
+
 #if !GODOT && !UNITY_5_3_OR_NEWER
         public Numstring(object value)
         {
@@ -217,6 +227,16 @@ namespace Rusty.Numstrings
             return value.str;
         }
 
+        public static implicit operator int[](Numstring value)
+        {
+            return IntArrayParser.Parse(value.str);
+        }
+
+        public static implicit operator float[](Numstring value)
+        {
+            return FloatArrayParser.Parse(value.str);
+        }
+
         // To numstring.
         public static implicit operator Numstring(bool value)
         {
@@ -284,6 +304,16 @@ namespace Rusty.Numstrings
         }
 
         public static implicit operator Numstring(string value)
+        {
+            return new(value);
+        }
+
+        public static implicit operator Numstring(int[] value)
+        {
+            return new(value);
+        }
+
+        public static implicit operator Numstring(float[] value)
         {
             return new(value);
         }
